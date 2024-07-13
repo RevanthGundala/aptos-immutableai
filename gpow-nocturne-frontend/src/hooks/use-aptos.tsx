@@ -27,11 +27,15 @@ export default function useAptos() {
     taskCount: number,
     wallet: WalletInfo
   ) => {
-    if (!connected) {
-      connect(wallets![0].name); // Connect to the first wallet in the list
-    }
+    // if (!connected) {
+    //   connect(wallets![0].name); // Connect to the first wallet in the list
+    // }
     if (network?.name !== Network.DEVNET) {
-      changeNetwork(Network.DEVNET);
+      const res = await changeNetwork(Network.DEVNET);
+      if (!res.success) {
+        toast.error(res.reason || "Failed to change network");
+        return;
+      }
     }
 
     try {
@@ -41,9 +45,10 @@ export default function useAptos() {
         sender: account?.address || "",
         data: {
           function: `${CONTRACT_ADDRESS}::job::submit`,
-          functionArguments: [cidManifest, taskCount, 0],
+          functionArguments: [cidManifest, taskCount, 0], // Option types are not recognized in entry functions yet, must include a 3rd param
         },
       });
+      console.log(tx);
       const txReceipt = await aptos.waitForTransaction({
         transactionHash: tx.hash,
       });

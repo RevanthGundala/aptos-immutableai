@@ -14,13 +14,13 @@ export default function AptosProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const wallets: Wallet[] = [new PetraWallet(), new NightlyWallet()];
+  const wallets: Wallet[] = [new PetraWallet()];
 
   return (
     <AptosWalletAdapterProvider
       plugins={wallets}
       autoConnect={true}
-      optInWallets={["Petra", "Nightly"]}
+      optInWallets={["Petra"]}
       dappConfig={{ network: Network.DEVNET }}
       onError={(error) => {
         console.log("error", error);

@@ -248,7 +248,7 @@ module nocturne_job_addr::job {
         move_to(nocturne_job_signer, nocturne_job);
     }
 
-    // Task count is currently not used
+    // TODO: Task count is currently not used
     public fun new_job(caller: &signer, cid_manifest: String, task_count: u32, tip: Option<u64>): Job {
         Job { 
             creator: signer::address_of(caller),
@@ -312,7 +312,7 @@ module nocturne_job_addr::job {
         for(i in 0..vector::length(&jobs)) {
             let status = get_job_status(i);
             if(status == CREATED || status == IN_PROGRESS){
-                claim(caller, i)
+                claim(caller, i);
             }
         };
     }
@@ -434,7 +434,7 @@ module nocturne_job_addr::job {
     // Claim a task
     // If job has available tasks, claim the first available task
     // Returns an error if no tasks are available
-    public entry fun claim_task(worker: address, job_id: u64) acquires NocturneJob { 
+    public fun claim_task(worker: address, job_id: u64): Task acquires NocturneJob { 
         // Claim first "Created" task
         let jobs = get_jobs_mut();
         let job = vector::borrow_mut(&mut jobs, job_id);
@@ -444,8 +444,10 @@ module nocturne_job_addr::job {
                 task.worker = option::some(worker);
                 task.status = IN_PROGRESS;
                 task.updated_at = option::some(timestamp::now_seconds());
+                return *task
             }
         };
+        abort(E_CLAIM_FAILED)
     }
 
     public inline fun get_jobs_mut(): vector<Job> acquires NocturneJob {
