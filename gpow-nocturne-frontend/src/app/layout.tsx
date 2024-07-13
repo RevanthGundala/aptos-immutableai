@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Header from "@/components/header";
-import SubstrateNodeProvider from "@/providers/substrate-provider";
+import AptosProvider from "@/providers/aptos-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +20,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster position="top-right" reverseOrder={false} containerStyle={{
-          top: 100
-        }} />
-        <SubstrateNodeProvider>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          containerStyle={{
+            top: 100,
+          }}
+        />
+        <AptosProvider>
           <Header />
           {children}
-        </SubstrateNodeProvider>
+        </AptosProvider>
       </body>
     </html>
   );

@@ -349,8 +349,6 @@ module nocturne_job_addr::job {
             task.status = CREATED;
         };
 
-        // TODO: Update job with updated task
-
         // Emit TaskFailed event
         event::emit(TaskFailed { 
             worker,
@@ -395,8 +393,6 @@ module nocturne_job_addr::job {
         job.updated_at = option::some(timestamp::now_seconds());
         job.cid_results = option::some(vector::singleton(cid_result));
 
-        // TODO: Update job with updated task
-
         // Emit JobCompleted event
         event::emit(JobCompleted { 
             creator,
@@ -423,8 +419,6 @@ module nocturne_job_addr::job {
 
         // Update job with status failed
         job.updated_at = option::some(timestamp::now_seconds());
-
-        // TODO: Update job with updated task
     }
 
     public fun new_task(worker: address): Task {
