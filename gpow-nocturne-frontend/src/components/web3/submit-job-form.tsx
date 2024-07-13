@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import useContract from "@/hooks/use-contract";
+import useAptos from "@/hooks/use-aptos";
 import { JobFormData, jobFormSchema } from "@/utils/form-schema";
 
 import {
@@ -48,7 +48,7 @@ export default function SubmitJobForm() {
   const [jobManifestHash, setJobManifestHash] = useState<string>("");
   const { wallet } = useWallet();
 
-  const { submitJob } = useContract();
+  const { submitJob } = useAptos();
   const { uploadDataUsingKubo } = useIpfs();
 
   //   useEffect(() => {
@@ -120,10 +120,11 @@ export default function SubmitJobForm() {
 
     const jobManifestCID = uploadJobManifestToIPFS?.cid.toString();
     setJobManifestHash(jobManifestCID);
+    toast.success("Job manifest uploaded!");
   };
 
   const submitJobToAptos = () => {
-    submitJob(jobManifestHash, 5, wallet!); // TODO
+    submitJob(jobManifestHash, 5, wallet!);
     clearFields();
   };
 
@@ -186,12 +187,12 @@ export default function SubmitJobForm() {
             />
           </div>
           <div className="flex-1">
-            <SelectBox
+            {/* <SelectBox
               title="Wallet"
               options={[]}
               register={register("wallet")}
               errorMsg={errors.wallet?.message}
-            />
+            /> */}
           </div>
         </div>
 

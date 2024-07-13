@@ -8,13 +8,13 @@ compiled_package_info:
     aptos_std: "0000000000000000000000000000000000000000000000000000000000000001"
     aptos_token: "0000000000000000000000000000000000000000000000000000000000000003"
     core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
-    nocturne_job_addr: "0000000000000000000000000000000000000000000000000000000000000100"
+    nocturne_job_addr: 85e2c05be51e876b354bac4ec31fddb3cc4c475b241025cbea225f3ab2b2ec5b
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 8F66EF213B374417DE0C3F5350A14733801E4994768071035D39F1E700F99BA0
+  source_digest: 5975AF07E7D806950F16646DD1C994A25CB3BB4AAE46D522CEB76064F4CCA304
   build_flags:
-    dev_mode: true
+    dev_mode: false
     test_mode: false
     override_std: ~
     generate_docs: false
@@ -23,7 +23,8 @@ compiled_package_info:
     full_model_generation: false
     install_dir: ~
     force_recompilation: false
-    additional_named_addresses: {}
+    additional_named_addresses:
+      nocturne_job_addr: 85e2c05be51e876b354bac4ec31fddb3cc4c475b241025cbea225f3ab2b2ec5b
     architecture: ~
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false

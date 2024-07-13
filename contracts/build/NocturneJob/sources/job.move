@@ -268,7 +268,7 @@ module nocturne_job_addr::job {
     // The job is created with the status Created
     // The job is created with the created_at timestamp
     // The caller may attach a deposit to the call. Deposit is a 'tip' for the worker
-    public entry fun submit(caller: &signer, cid_manifest: String, task_count: u32, tip: Option<u64>) acquires NocturneJob {
+    public fun submit(caller: &signer, cid_manifest: String, task_count: u32, tip: Option<u64>) acquires NocturneJob {
         assert!(task_count > 0 && task_count <= 10, E_SUBMIT_FAILED);
         let nocturne_job = borrow_global_mut<NocturneJob>(@nocturne_job_addr);
         let job = new_job(caller, cid_manifest, task_count, tip);

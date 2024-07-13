@@ -284,7 +284,7 @@ module nocturne_job_addr::job {
     // The job is updated with the status Pending
     // The job is updated with the updated_at timestamp
     // The job is updated with the worker account id
-    public fun claim(caller: &signer, job_id: u64): Job acquires NocturneJob {
+    public entry fun claim(caller: &signer, job_id: u64) acquires NocturneJob {
         let worker = signer::address_of(caller);
         let jobs = get_jobs_by_worker(worker, option::some(IN_PROGRESS));
         assert!(option::is_some(&jobs), E_NO_JOBS);
@@ -297,14 +297,13 @@ module nocturne_job_addr::job {
             worker,
             task_id: task.id,
         });
-        *job
     }
 
     // Claim first available job (Backend endpoint)
     // Scan jobs for most recent available job
     // Calls claim with the job id
     // Returns an error if no job is available
-    public fun claim_first(caller: &signer): Job acquires NocturneJob {
+    public entry fun claim_first(caller: &signer) acquires NocturneJob {
         let worker = signer::address_of(caller);
         let jobs = get_jobs_by_worker(worker, option::some(IN_PROGRESS));
         assert!(option::is_some(&jobs), E_NO_JOBS);
@@ -313,17 +312,16 @@ module nocturne_job_addr::job {
         for(i in 0..vector::length(&jobs)) {
             let status = get_job_status(i);
             if(status == CREATED || status == IN_PROGRESS){
-                return claim(caller, i)
+                claim(caller, i)
             }
         };
-        abort(E_NO_JOBS)
     }
 
     // Fail a job (Backend endpoint)
     // The job is updated with the status Failed
     // The job is updated with the updated_at timestamp
     // The worker account id is removed from the job workers
-    public fun fail(caller: &signer, job_id: u64, task_id: u64) acquires NocturneJob {
+    public entry fun fail(caller: &signer, job_id: u64, task_id: u64) acquires NocturneJob {
         let nocturne_job = borrow_global_mut<NocturneJob>(@nocturne_job_addr);
         let jobs = nocturne_job.jobs;
         let job = vector::borrow_mut(&mut jobs, job_id);
@@ -360,7 +358,7 @@ module nocturne_job_addr::job {
     // The job is updated with the status Completed
     // The job is updated with the updated_at timestamp
     // The job is updated with the result content id
-    public fun complete(caller: &signer, job_id: u64, task_id: u64, cid_result: String) acquires NocturneJob {
+    public entry fun complete(caller: &signer, job_id: u64, task_id: u64, cid_result: String) acquires NocturneJob {
         let jobs = get_jobs_mut();
         let job = vector::borrow_mut(&mut jobs, job_id);
         let task = vector::borrow_mut(&mut job.tasks, task_id);
@@ -436,7 +434,7 @@ module nocturne_job_addr::job {
     // Claim a task
     // If job has available tasks, claim the first available task
     // Returns an error if no tasks are available
-    public fun claim_task(worker: address, job_id: u64): Task acquires NocturneJob { 
+    public entry fun claim_task(worker: address, job_id: u64) acquires NocturneJob { 
         // Claim first "Created" task
         let jobs = get_jobs_mut();
         let job = vector::borrow_mut(&mut jobs, job_id);
@@ -446,10 +444,8 @@ module nocturne_job_addr::job {
                 task.worker = option::some(worker);
                 task.status = IN_PROGRESS;
                 task.updated_at = option::some(timestamp::now_seconds());
-                return *task
             }
         };
-        abort(E_CLAIM_FAILED)
     }
 
     public inline fun get_jobs_mut(): vector<Job> acquires NocturneJob {

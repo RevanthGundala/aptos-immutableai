@@ -14,3 +14,6 @@ export const dockerImages: options[] = [
   { label: "Bias Detection Image", value: "immu-ai/bias-detection:latest" },
   { label: "Petals Image", value: "immu-ai/petals:latest" },
 ];
+
+export const CONTRACT_ADDRESS =
+  "0x85e2c05be51e876b354bac4ec31fddb3cc4c475b241025cbea225f3ab2b2ec5b";
