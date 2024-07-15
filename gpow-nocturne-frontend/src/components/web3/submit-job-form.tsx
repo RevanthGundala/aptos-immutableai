@@ -20,7 +20,8 @@ import useIpfs from "@/hooks/use-ipfs";
 import useFileUpload from "@/hooks/use-upload-file";
 
 import { options, dockerImages, jobTypes } from "@/constants/selectFields";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+//import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 
 export default function SubmitJobForm() {
   const {
@@ -46,8 +47,7 @@ export default function SubmitJobForm() {
 
   //   const [account, setAccount] = useState<options[]>([]);
   const [jobManifestHash, setJobManifestHash] = useState<string>("");
-  const { wallet } = useWallet();
-
+  const [walletName, setWalletName] = useState<string>("");
   const { submitJob } = useAptos();
   const { uploadDataUsingKubo } = useIpfs();
 
@@ -66,7 +66,8 @@ export default function SubmitJobForm() {
       return;
     }
 
-    const { includeLogs, dockerImage, jobType, taskName } = data;
+    const { wallet, includeLogs, dockerImage, jobType, taskName } = data;
+    setWalletName(wallet);
 
     const uploadDataToIPFS = await uploadDataUsingKubo(codeFiles[0]);
 
@@ -124,7 +125,7 @@ export default function SubmitJobForm() {
   };
 
   const submitJobToAptos = () => {
-    submitJob(jobManifestHash, 5, wallet!);
+    submitJob(jobManifestHash, 5, walletName);
     clearFields();
   };
 
@@ -187,12 +188,13 @@ export default function SubmitJobForm() {
             />
           </div>
           <div className="flex-1">
-            {/* <SelectBox
+            {/* <WalletSelector /> */}
+            <SelectBox
               title="Wallet"
-              options={[]}
+              options={[{ label: "Petra", value: "Petra" }]}
               register={register("wallet")}
-              errorMsg={errors.wallet?.message}
-            /> */}
+              errorMsg={errors.wallet?.message as string}
+            />
           </div>
         </div>
 

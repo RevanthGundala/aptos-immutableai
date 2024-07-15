@@ -9,6 +9,7 @@ import {
   Network,
   UserTransactionResponse,
 } from "@aptos-labs/ts-sdk";
+import { WalletName } from "@aptos-labs/wallet-adapter-react";
 
 export default function useAptos() {
   const {
@@ -20,23 +21,36 @@ export default function useAptos() {
     network,
     changeNetwork,
   } = useWallet();
-  const aptos = new Aptos(new AptosConfig({ network: Network.DEVNET }));
+  const aptos = new Aptos(
+    new AptosConfig({
+      network: Network.CUSTOM,
+      fullnode: "https://aptos.devnet.m1.movementlabs.xyz",
+    })
+  );
 
   const submitJob = async (
     cidManifest: string,
     taskCount: number,
-    wallet: WalletInfo
+    walletName: string
   ) => {
-    // if (!connected) {
-    //   connect(wallets![0].name); // Connect to the first wallet in the list
-    // }
-    if (network?.name !== Network.DEVNET) {
-      const res = await changeNetwork(Network.DEVNET);
-      if (!res.success) {
-        toast.error(res.reason || "Failed to change network");
+    if (!connected) {
+      const selectedWallet = wallets!.find(
+        (wallet) => wallet.name === (walletName as WalletName<string>)
+      );
+      if (selectedWallet) {
+        connect(selectedWallet.name);
+      } else {
+        console.error("Invalid wallet name");
         return;
       }
     }
+    // if (network?.name !== Network.CUSTOM) {
+    //   const res = await changeNetwork(Network.CUSTOM);
+    //   if (!res.success) {
+    //     toast.error(res.reason || "Failed to change network");
+    //     return;
+    //   }
+    // }
 
     try {
       // TODO: Get gas limit

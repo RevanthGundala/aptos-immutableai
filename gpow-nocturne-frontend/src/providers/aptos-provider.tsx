@@ -21,7 +21,7 @@ export default function AptosProvider({
       plugins={wallets}
       autoConnect={true}
       optInWallets={["Petra"]}
-      dappConfig={{ network: Network.DEVNET }}
+      // dappConfig={{ network: Network.CUSTOM }}
       onError={(error) => {
         console.log("error", error);
       }}
