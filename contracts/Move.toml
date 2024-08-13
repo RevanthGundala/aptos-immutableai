@@ -1,5 +1,5 @@
 [package]
-name = "NocturneJob"
+name = "nocturne_job"
 version = "1.0.0"
 authors = []
 
@@ -15,4 +15,3 @@ rev = "mainnet"
 subdir = "aptos-move/framework/aptos-framework"
 
 [dev-dependencies]
-

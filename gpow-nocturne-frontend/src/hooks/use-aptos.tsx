@@ -44,6 +44,8 @@ export default function useAptos() {
         return;
       }
     }
+
+    // TODO:
     // if (network?.name !== Network.CUSTOM) {
     //   const res = await changeNetwork(Network.CUSTOM);
     //   if (!res.success) {
