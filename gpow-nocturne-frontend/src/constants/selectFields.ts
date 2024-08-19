@@ -16,4 +16,4 @@ export const dockerImages: options[] = [
 ];
 
 export const CONTRACT_ADDRESS =
-  "0x5d5cd124b058bc5b0bdc4ab0b58a3511e4605f78f1403ca794a3fe3a83e78d8d";
+  "0x33fb744c44cddf9f5833be88e59c30852ef7f3cadbda428dc09b220b6c3a19eb";

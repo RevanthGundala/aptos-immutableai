@@ -2,7 +2,7 @@
 profiles:
   default:
     network: Custom
-    private_key: "0x3079e734b22271e21ba36058d14435b519792229469e74a60b4a8ab384ed984c"
-    public_key: "0xdb4fdf9e9597d51713a11ab0ca200d28d1327eb793b445ac99ba0a1663e7cbb3"
-    account: 5d5cd124b058bc5b0bdc4ab0b58a3511e4605f78f1403ca794a3fe3a83e78d8d
-    rest_url: "https://aptos.devnet.m1.movementlabs.xyz/"
+    private_key: "0x08b5154fd36eeabea460f79d34042e9eb8774b3781b5fd7fcaa0a633ebe2c413"
+    public_key: "0xc1fe17a082a188760321e1ada4a160476bd3b5c059c2f76b1b173ee450ec7b0f"
+    account: 33fb744c44cddf9f5833be88e59c30852ef7f3cadbda428dc09b220b6c3a19eb
+    rest_url: "https://aptos.testnet.suzuka.movementlabs.xyz/v1"

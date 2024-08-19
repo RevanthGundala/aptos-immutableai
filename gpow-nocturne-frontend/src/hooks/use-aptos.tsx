@@ -24,7 +24,7 @@ export default function useAptos() {
   const aptos = new Aptos(
     new AptosConfig({
       network: Network.CUSTOM,
-      fullnode: "https://aptos.devnet.m1.movementlabs.xyz",
+      fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
     })
   );
 
@@ -38,6 +38,7 @@ export default function useAptos() {
         (wallet) => wallet.name === (walletName as WalletName<string>)
       );
       if (selectedWallet) {
+        console.log("Connecting to wallet...");
         connect(selectedWallet.name);
       } else {
         console.error("Invalid wallet name");
@@ -57,6 +58,7 @@ export default function useAptos() {
     try {
       // TODO: Get gas limit
       console.log("Submitting job...");
+      console.log("Account address:", account?.address);
       const tx = await signAndSubmitTransaction({
         sender: account?.address || "",
         data: {
@@ -64,7 +66,9 @@ export default function useAptos() {
           functionArguments: [cidManifest, taskCount, 0], // Option types are not recognized in entry functions yet, must include a 3rd param
         },
       });
-      console.log(tx);
+      console.log(
+        `View transaction at: https://explorer.movementnetwork.xyz/txn/${tx.hash}?network=testnet`
+      );
       const txReceipt = await aptos.waitForTransaction({
         transactionHash: tx.hash,
       });

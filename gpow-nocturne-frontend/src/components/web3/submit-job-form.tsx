@@ -49,7 +49,7 @@ export default function SubmitJobForm() {
   const [jobManifestHash, setJobManifestHash] = useState<string>("");
   const [walletName, setWalletName] = useState<string>("");
   const { submitJob } = useAptos();
-  const { uploadDataUsingKubo } = useIpfs();
+  const { uploadDataUsingKubo, uploadDataUsingPinata } = useIpfs();
 
   //   useEffect(() => {
   //     setAccount(
@@ -69,7 +69,8 @@ export default function SubmitJobForm() {
     const { wallet, includeLogs, dockerImage, jobType, taskName } = data;
     setWalletName(wallet);
 
-    const uploadDataToIPFS = await uploadDataUsingKubo(codeFiles[0]);
+    // const uploadDataToIPFS = await uploadDataUsingKubo(codeFiles[0]);
+    const uploadDataToIPFS = await uploadDataUsingPinata(codeFiles[0]);
 
     if (!uploadDataToIPFS) {
       toast.error("Error uploading file to IPFS");
@@ -87,7 +88,7 @@ export default function SubmitJobForm() {
           includeLogs: includeLogs,
           data: {
             filename: codeFiles[0]?.name,
-            cid: uploadDataToIPFS.cid.toString(),
+            cid: uploadDataToIPFS.IpfsHash.toString(),
           },
           logs: null,
           image: dockerImage,
@@ -110,7 +111,7 @@ export default function SubmitJobForm() {
     };
 
     const jobManifestSchema = JSON.stringify(jobManifest);
-    const uploadJobManifestToIPFS = await uploadDataUsingKubo(
+    const uploadJobManifestToIPFS = await uploadDataUsingPinata(
       jobManifestSchema
     );
 
@@ -119,7 +120,7 @@ export default function SubmitJobForm() {
       return;
     }
 
-    const jobManifestCID = uploadJobManifestToIPFS?.cid.toString();
+    const jobManifestCID = uploadJobManifestToIPFS?.IpfsHash.toString();
     setJobManifestHash(jobManifestCID);
     toast.success("Job manifest uploaded!");
   };
@@ -143,7 +144,7 @@ export default function SubmitJobForm() {
           <Button
             variant="link"
             size="link"
-            link={`http://localhost:8080/ipfs/${jobManifestHash}`}
+            link={`http://green-entitled-bovid-242.mypinata.cloud/ipfs/${jobManifestHash}`}
             target="_blank"
             title="View Job Manifest"
           />

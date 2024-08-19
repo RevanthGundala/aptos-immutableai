@@ -30,6 +30,7 @@
     "kubo-rpc-client": "^4.1.1",
     "next": "14.2.3",
     "petra-plugin-wallet-adapter": "^0.4.5",
+    "pinata": "^0.2.0",
     "pnpm": "^9.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
