@@ -27,10 +27,12 @@ export default function useAptos() {
         },
       });
       console.log(
-        `View transaction at: https://explorer.movementnetwork.xyz/txn/${tx.args.hash}?network=testnet`
+        `View transaction at: https://explorer.movementnetwork.xyz/txn/${
+          (tx as any).args.hash
+        }?network=testnet`
       );
       const txReceipt = await provider.waitForTransaction({
-        transactionHash: tx.args.hash,
+        transactionHash: (tx as any).args.hash,
       });
       console.dir(txReceipt, { depth: null });
       if (
