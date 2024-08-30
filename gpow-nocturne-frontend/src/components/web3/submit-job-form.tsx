@@ -18,10 +18,8 @@ import {
 import FileIcon from "../svg/file-icon";
 import useIpfs from "@/hooks/use-ipfs";
 import useFileUpload from "@/hooks/use-upload-file";
-
 import { options, dockerImages, jobTypes } from "@/constants/selectFields";
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
-//import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
+import { AptosConnectButton, useAptosWallet } from "@razorlabs/wallet-kit";
 
 export default function SubmitJobForm() {
   const {
@@ -45,20 +43,10 @@ export default function SubmitJobForm() {
     removeFiles,
   } = useFileUpload();
 
-  //   const [account, setAccount] = useState<options[]>([]);
   const [jobManifestHash, setJobManifestHash] = useState<string>("");
-  const [walletName, setWalletName] = useState<string>("");
   const { submitJob } = useAptos();
   const { uploadDataUsingKubo, uploadDataUsingPinata } = useIpfs();
-
-  //   useEffect(() => {
-  //     setAccount(
-  //       state.allAccounts.map((account: any) => ({
-  //         label: account.meta.name,
-  //         value: account.address,
-  //       }))
-  //     );
-  //   }, [state.allAccounts]);
+  const { account } = useAptosWallet();
 
   const onSubmit = async (data: JobFormData) => {
     if (codeFiles.length <= 0) {
@@ -66,8 +54,7 @@ export default function SubmitJobForm() {
       return;
     }
 
-    const { wallet, includeLogs, dockerImage, jobType, taskName } = data;
-    setWalletName(wallet);
+    const { includeLogs, dockerImage, jobType, taskName } = data;
 
     // const uploadDataToIPFS = await uploadDataUsingKubo(codeFiles[0]);
     const uploadDataToIPFS = await uploadDataUsingPinata(codeFiles[0]);
@@ -78,7 +65,7 @@ export default function SubmitJobForm() {
     }
 
     const jobManifest = {
-      owner: wallet,
+      owner: account?.address,
       id: taskName,
       jobType: jobType,
       tasks: [
@@ -126,7 +113,7 @@ export default function SubmitJobForm() {
   };
 
   const submitJobToAptos = () => {
-    submitJob(jobManifestHash, 5, walletName);
+    submitJob(jobManifestHash, 5);
     clearFields();
   };
 
@@ -188,14 +175,8 @@ export default function SubmitJobForm() {
               errorMsg={errors.jobType?.message}
             />
           </div>
-          <div className="flex-1">
-            {/* <WalletSelector /> */}
-            <SelectBox
-              title="Wallet"
-              options={[{ label: "Petra", value: "Petra" }]}
-              register={register("wallet")}
-              errorMsg={errors.wallet?.message as string}
-            />
+          <div className="flex-1 mt-8">
+            <AptosConnectButton>Connect Wallet</AptosConnectButton>
           </div>
         </div>
 
