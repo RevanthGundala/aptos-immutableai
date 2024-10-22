@@ -1,10 +1,10 @@
 [package]
-name = "nocturne-job"
+name = "nocturne_job"
 version = "1.0.0"
 authors = []
 
 [addresses]
-nocturne_job_addr = "33fb744c44cddf9f5833be88e59c30852ef7f3cadbda428dc09b220b6c3a19eb"
+nocturne_job_addr="4488d24ce1fe0d3764007049bd287b02fa511a70f6b193fda3624922c6daf4ba"
 
 [dev-addresses]
 
