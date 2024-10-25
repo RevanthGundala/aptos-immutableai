@@ -23,13 +23,12 @@ compiled_package_info:
     full_model_generation: false
     install_dir: ~
     force_recompilation: false
-    additional_named_addresses:
-      nocturne_job_addr: 4488d24ce1fe0d3764007049bd287b02fa511a70f6b193fda3624922c6daf4ba
+    additional_named_addresses: {}
     architecture: ~
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false
     compiler_config:
-      bytecode_version: 6
+      bytecode_version: 7
       known_attributes:
         - bytecode_instruction
         - deprecated
@@ -39,6 +38,7 @@ compiled_package_info:
         - legacy_entry_fun
         - "lint::allow_unsafe_randomness"
         - "lint::skip"
+        - "mutation::skip"
         - native_interface
         - randomness
         - resource_group
