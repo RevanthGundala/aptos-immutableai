@@ -207,7 +207,7 @@ module nocturne_job_addr::job {
     }
 
     #[view]
-    public fun get_jobs_by_creator(creator: address, status: Option<u8>): vector<Job> acquires NocturneJob {
+    public fun get_jobs_by_creator(creator: address): vector<Job> acquires NocturneJob {
         let jobs = get_jobs();
         let filtered_jobs = vector::empty<Job>();
         
@@ -216,9 +216,7 @@ module nocturne_job_addr::job {
         while (i < len) {
             let job = vector::borrow(&jobs, i);
             if (job.creator == creator) {
-                if (option::is_none(&status) || option::contains(&status, &job.status)) {
-                    vector::push_back(&mut filtered_jobs, *job);
-                };
+                vector::push_back(&mut filtered_jobs, *job);
             };
             i = i + 1;
         };
@@ -227,7 +225,7 @@ module nocturne_job_addr::job {
     }
 
     #[view]
-    public fun get_jobs_by_worker(worker: address, status: Option<u8>): vector<Job> acquires NocturneJob {
+    public fun get_jobs_by_worker(worker: address): vector<Job> acquires NocturneJob {
         let jobs = get_jobs();
         let filtered_jobs = vector::empty<Job>();
         
@@ -236,9 +234,7 @@ module nocturne_job_addr::job {
         while (i < len) {
             let job = vector::borrow(&jobs, i);
             if (option::is_some(&job.worker) && option::contains(&job.worker, &worker)) {
-                if (option::is_none(&status) || option::contains(&status, &job.status)) {
-                    vector::push_back(&mut filtered_jobs, *job);
-                };
+                vector::push_back(&mut filtered_jobs, *job);
             };
             i = i + 1;
         };
